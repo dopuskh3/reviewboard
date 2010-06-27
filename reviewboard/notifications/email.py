@@ -120,17 +120,15 @@ def send_review_mail(user, review_request, subject, in_reply_to,
     """
     current_site = Site.objects.get_current()
 
-    from_email = get_email_address_for_user(user)
+    from_email = user.email
 
     recipients = set([from_email])
-    to_field = set()
 
     if review_request.submitter.is_active:
-        recipients.add(get_email_address_for_user(review_request.submitter))
+        recipients.add(review_request.submitter.email)
 
     for u in review_request.target_people.filter(is_active=True):
-        recipients.add(get_email_address_for_user(u))
-        to_field.add(get_email_address_for_user(u))
+        recipients.add(u.email)
 
     for group in review_request.target_groups.all():
         for address in get_email_addresses_for_group(group):

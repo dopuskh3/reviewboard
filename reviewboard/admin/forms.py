@@ -545,6 +545,44 @@ class EMailSettingsForm(SiteSettingsForm):
     class Meta:
         title = _("E-Mail Settings")
 
+class JabberSettingsForm(SiteSettingsForm):
+    """
+    Jabber settings for Review Board
+    """
+    jabber_send_review = forms.BooleanField(
+        label=_("Send jabber notifications for review requests and reviews"),
+        required = False)
+
+    jabber_use_tls = forms.BooleanField(
+        label = _("Use TLS for jabber connections"),
+        required = False)
+
+    jabber_force_tls = forms.BooleanField(
+        label = _("Force TLS on jabber connections"),
+        required = False)
+
+    jabber_id = forms.EmailField(
+        label=_("Jabber ID"),
+        required=True,
+        widget=forms.TextInput(attrs={'size': '30'}))
+
+    jabber_password = forms.CharField(
+        widget=forms.PasswordInput,
+        label=_("Jabber ID Password"),
+        required=False)
+
+
+    jabber_resource = forms.CharField(
+        label=_("Jabber resource"),
+        required = True)
+
+    def save(self):
+        super(JabberSettingsForm, self).save()
+        load_site_config()
+
+    class Meta:
+        title = _("Jabber Settings")
+
 
 class DiffSettingsForm(SiteSettingsForm):
     """Diff settings for Review Board."""

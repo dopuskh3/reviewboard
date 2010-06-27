@@ -8,8 +8,10 @@ def connect_signals(**kwargs):
     is loaded first.
     """
     from reviewboard.notifications import email
-
     email.connect_signals()
+
+    from reviewboard.notifications import jabber
+    jabber.connect_signals()
 
 
 initializing.connect(connect_signals)
